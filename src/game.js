@@ -38,6 +38,9 @@ export class Game {
     this._pendingAdvance = false;
     this._pendingIndex = 0;
 
+    // Win state
+    this.won = false;
+
     // Camera orbit controls
     this.camYaw = 0;
     this.camPitch = -0.25;
@@ -85,6 +88,23 @@ export class Game {
     };
 
     this._setupLights();
+  }
+
+  _setWinScreenVisible(v) {
+    if (!this.ui || !this.ui.winScreen) return;
+    this.ui.winScreen.classList.toggle("hidden", !v);
+  }
+
+  async restartRun() {
+    // Hide win UI and restart at Level 1
+    this.won = false;
+    this._setWinScreenVisible(false);
+
+    this._pendingAdvance = false;
+    this._advancing = false;
+
+    await this.goToLevel(0);
+    this._toast(`Restarted • Level 1/${LEVEL_COUNT}`);
   }
 
   _setupLights() {
@@ -465,6 +485,9 @@ export class Game {
   update() {
     const dt = Math.min(this.clock.getDelta(), 1 / 30);
 
+    // If you've won, keep the scene rendered but freeze gameplay.
+    if (this.won) return;
+
     // World animation
     this._updateMovingPlatforms(dt);
     this._updateEnemies(dt);
@@ -483,7 +506,6 @@ export class Game {
       const target = this._pendingIndex;
       this._pendingAdvance = false;
 
-      // Kick off rebuild; keep game loop running
       this.goToLevel(target).finally(() => {
         this._advancing = false;
       });
@@ -739,13 +761,21 @@ export class Game {
 
     const p = this.player.pos;
     if (p.distanceTo(this.goal.pos) < this.goal.radius) {
-      // queue next level (so we don't rebuild in the middle of physics)
-      if (!this._pendingAdvance && !this._advancing) {
-        const next = (this.levelIndex + 1) % LEVEL_COUNT;
-        this._pendingAdvance = true;
-        this._pendingIndex = next;
-        this._toast(`Level clear! → ${next + 1}/${LEVEL_COUNT}`);
+      if (this._pendingAdvance || this._advancing) return;
+
+      // If this was the final level, show win screen and stop progression
+      if (this.levelIndex === LEVEL_COUNT - 1) {
+        this.won = true;
+        this._setWinScreenVisible(true);
+        this._toast("You won!");
+        return;
       }
+
+      // Otherwise, go to next level
+      const next = this.levelIndex + 1;
+      this._pendingAdvance = true;
+      this._pendingIndex = next;
+      this._toast(`Level clear! → ${next + 1}/${LEVEL_COUNT}`);
     }
   }
 

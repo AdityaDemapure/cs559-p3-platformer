@@ -9,6 +9,10 @@ const resetBtn = document.getElementById("resetBtn");
 const toast = document.getElementById("toast");
 const loading = document.getElementById("loading");
 
+// Win screen UI
+const winScreen = document.getElementById("winScreen");
+const restartBtn = document.getElementById("restartBtn");
+
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
 renderer.setSize(window.innerWidth, window.innerHeight, false);
@@ -21,7 +25,7 @@ const camera = new THREE.PerspectiveCamera(
   250
 );
 
-const game = new Game(scene, camera, renderer, { toast, loading });
+const game = new Game(scene, camera, renderer, { toast, loading, winScreen });
 
 game.bindInput(canvas);
 
@@ -44,6 +48,11 @@ difficultySelect.addEventListener("change", () => {
 });
 
 resetBtn.addEventListener("click", () => game.reset());
+
+// Restart the whole run (back to Level 1) from win screen
+restartBtn.addEventListener("click", async () => {
+  await game.restartRun();
+});
 
 window.addEventListener("resize", () => {
   const w = window.innerWidth;

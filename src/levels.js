@@ -111,36 +111,49 @@ export const LEVELS = [
   }),
 
   // =========================
-  // LEVEL 4: Vertical climb + columns
+  // LEVEL 4: Vertical climb (NOW DEFINITELY BEATABLE)
+  //   Every step rises by 1.5 (or less).
   // =========================
   L({
     spawn: { pos: [0, 1, 16] },
-    goal: { pos: [0, 16.5, -18], radius: 2.6 },
+    goal: { pos: [0, 13.6, -18], radius: 2.8 },
     platforms: [
       { pos: [0, -1.5, 0], size: [60, 2, 60] },
 
+      // Start pad
       { pos: [0, 0.0, 16], size: [10, 1, 10] },
-      { pos: [0, 3.0, 10], size: [6, 1, 6] },
-      { pos: [-4, 6.0, 4], size: [6, 1, 6] },
-      { pos: [4, 9.0, -2], size: [6, 1, 6] },
-      { pos: [0, 12.0, -10], size: [6, 1, 6] },
-      { pos: [0, 15.0, -18], size: [12, 1, 12] },
 
-      // Decorative / obstacle columns (collidable)
-      { pos: [-8, 6.0, 4], size: [2, 12, 2] },
-      { pos: [8, 10.0, -2], size: [2, 12, 2] },
-      { pos: [0, 12.5, -10], size: [2, 10, 2] },
+      // Climb: y goes 1.5 each time (or less)
+      { pos: [0, 1.5, 10], size: [7, 1, 7] },
+      { pos: [-4, 3.0, 4], size: [7, 1, 7] },
+      { pos: [0, 4.5, 1], size: [7, 1, 7] },
+      { pos: [4, 6.0, -2], size: [7, 1, 7] },
+      { pos: [0, 7.5, -6], size: [7, 1, 7] },
+      { pos: [0, 9.0, -10], size: [7, 1, 7] },
+      { pos: [0, 10.5, -14], size: [7, 1, 7] },
+
+      // Final platform (reachable from 10.5)
+      { pos: [0, 12.0, -18], size: [14, 1, 14] },
+
+      // Columns (collidable but not blocking the path)
+      { pos: [-8, 5.0, 4], size: [2, 10, 2] },
+      { pos: [8, 7.0, -2], size: [2, 10, 2] },
+      { pos: [0, 9.5, -12], size: [2, 8, 2] },
     ],
     movingPlatforms: [
-      { pos: [0, 7.5, 2], size: [6, 1, 6], axis: "x", amp: 5.0, speed: 1.0 }
+      // Optional helper platform (in case you want to chill / adjust camera)
+      { pos: [0, 6.0, 6], size: [6, 1, 6], axis: "x", amp: 5.0, speed: 1.0 },
+
+      // Elevator helper on the side (recovery option)
+      { pos: [-10, 2.5, 10], size: [6, 1, 6], axis: "y", amp: 4.0, speed: 0.9 },
     ],
     collectibles: [
-      { pos: [0, 4.4, 10] },
-      { pos: [4, 10.4, -2] },
-      { pos: [0, 17.4, -18] },
+      { pos: [0, 2.9, 10] },
+      { pos: [4, 7.4, -2] },
+      { pos: [0, 14.6, -18] },
     ],
     enemies: [
-      { pos: [0, 13.2, -10], patrolAxis: "x", amp: 4.0, speed: 1.3 }
+      { pos: [0, 10.2, -10], patrolAxis: "x", amp: 4.0, speed: 1.2 }
     ]
   }),
 
@@ -160,7 +173,6 @@ export const LEVELS = [
       { pos: [18, 8.0, -12], size: [6, 1, 6] },
       { pos: [26, 9.0, -12], size: [12, 1, 12] },
 
-      // Side safe ledges
       { pos: [0, 3.0, -4], size: [5, 1, 5] },
       { pos: [10, 5.0, -20], size: [5, 1, 5] },
     ],
@@ -194,12 +206,10 @@ export const LEVELS = [
       { pos: [18, 9.0, 8], size: [6, 1, 6] },
       { pos: [30, 11.0, 8], size: [14, 1, 14] },
 
-      // Tall obstacle posts
       { pos: [0, 5.5, 12], size: [2, 10, 2] },
       { pos: [12, 8.5, 4], size: [2, 10, 2] },
     ],
     movingPlatforms: [
-      // Bridge that oscillates between -4 and +4 x, timed jump/dash
       { pos: [-2, 4.5, 8], size: [10, 1, 4], axis: "x", amp: 6.0, speed: 0.9 },
       { pos: [12, 7.5, 8], size: [6, 1, 6], axis: "y", amp: 2.5, speed: 1.1 },
     ],
@@ -229,7 +239,6 @@ export const LEVELS = [
       { pos: [24, 12.0, 14], size: [6, 1, 6] },
       { pos: [34, 15.0, 18], size: [16, 1, 16] },
 
-      // Walls that force camera-relative movement awareness
       { pos: [-6, 6.0, -2], size: [2, 14, 2] },
       { pos: [6, 9.0, 6], size: [2, 14, 2] },
       { pos: [20, 12.0, 14], size: [2, 14, 2] },
