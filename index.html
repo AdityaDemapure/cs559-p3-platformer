@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Celeste-ish 3D Dash Platformer (THREE.js)</title>
+
+  <!-- Silence favicon 404 -->
+  <link rel="icon" href="data:,">
+
+  <link rel="stylesheet" href="./style.css" />
+
+  <!-- Import map so "three" + "three/addons/*" work in the browser -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+  <div id="hud">
+    <div id="titleRow">
+      <div>
+        <div id="projectTitle">Bellboy Platformer</div>
+        <div id="groupLine">
+          Group Name: <span class="mono">Aditya Demapure</span> —
+          Group ID: <span class="mono" id="groupId">1234</span>
+        </div>
+      </div>
+
+      <div id="controlsRow">
+        <label class="pill">
+          Mode:
+          <select id="modeSelect">
+            <option value="prototype">Prototype</option>
+            <option value="full">Full</option>
+          </select>
+        </label>
+
+        <label class="pill">
+          Difficulty:
+          <select id="difficultySelect">
+            <option value="1">Easy</option>
+            <option value="2" selected>Normal</option>
+            <option value="3">Hard</option>
+          </select>
+        </label>
+
+        <button class="pill" id="resetBtn">Reset</button>
+      </div>
+    </div>
+
+    <div id="help">
+      <div><b>Keyboard:</b> WASD/Arrows move • Space jump • Shift (or K) dash • Drag to rotate camera</div>
+      <div><b>Mobile:</b> Use buttons • Drag anywhere to rotate camera • Pinch/scroll to zoom</div>
+      <div class="small">Prototype = primitives only. Full = loads GLTF model + textures.</div>
+    </div>
+
+    <div id="toast" class="hidden"></div>
+    <div id="loading" class="hidden">Loading full assets…</div>
+  </div>
+
+  <canvas id="c"></canvas>
+
+  <!-- Mobile buttons -->
+  <div id="mobilePad">
+    <div class="padCol">
+      <button class="padBtn" id="btnLeft">◀</button>
+      <button class="padBtn" id="btnRight">▶</button>
+    </div>
+    <div class="padCol">
+      <button class="padBtn" id="btnForward">▲</button>
+      <button class="padBtn" id="btnBack">▼</button>
+    </div>
+    <div class="padCol">
+      <button class="padBtn big" id="btnJump">JUMP</button>
+      <button class="padBtn big" id="btnDash">DASH</button>
+    </div>
+  </div>
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
